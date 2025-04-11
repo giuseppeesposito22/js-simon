@@ -1,5 +1,8 @@
 const countdownEl = document.getElementById("countdown");
 const listNumberEl = document.getElementById("numbers-list");
+const answersFormEl = document.getElementById("answers-form");
+const inputEl = document.querySelectorAll(".form-control");
+const messageParagraphEl = document.getElementById("message");
 
 // con il setInterval creo un countdown
 let time = 3000;
@@ -11,10 +14,12 @@ const interval = setInterval(() => {
   if (time === 0) {
     clearInterval(interval);
     countdownEl.classList.add("d-none");
+    answersFormEl.classList.remove("d-none");
+    listNumberEl.classList.add("d-none");
   }
 }, 1000);
 
-// ho creato due metodi:
+// HO CREATO DUE METODI PER GENERARE L'ARRAY DI NUMERI CASUALI:
 
 // questo per generare numeri casuali
 const randomNumber = (min, max) =>
@@ -41,3 +46,32 @@ const numberArray = createRandomNumberArray(5);
 for (let i = 0; i < numberArray.length; i++) {
   listNumberEl.innerHTML += `<li>${numberArray[i]}</li>`;
 }
+
+// creo un array con i numeri inseriti negli input
+function createInputArray(inputNumber) {
+  const array = [];
+
+  for (let i = 0; i < inputNumber.length; i++) {
+    array.push(parseInt(inputNumber[i].value));
+  }
+
+  return array;
+}
+
+// associo all'evento submit del form la comparazione dei numeri dei due array
+// utilizzando un contatore per indicare quanti numeri sono stati indovinati e riportarlo a schermo
+
+answersFormEl.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  let cont = 0;
+  const inputArray = createInputArray(inputEl);
+
+  for (let i = 0; i < inputArray.length; i++) {
+    if (numberArray.includes(inputArray[i])) {
+      cont += 1;
+    }
+  }
+
+  messageParagraphEl.innerHTML = `Hai indovinato ${cont} numeri`;
+});
