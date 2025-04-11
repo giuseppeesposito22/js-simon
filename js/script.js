@@ -1,14 +1,16 @@
 const countdownEl = document.getElementById("countdown");
 const listNumberEl = document.getElementById("numbers-list");
 const answersFormEl = document.getElementById("answers-form");
-const inputEl = document.querySelectorAll(".form-control");
+const inputEl = answersFormEl.querySelectorAll(".form-control");
 const messageParagraphEl = document.getElementById("message");
+const paragraphInstructionEl = document.getElementById("instructions");
 
 // con il setInterval creo un countdown
-let time = 3000;
+let time = 10000;
 
 const interval = setInterval(() => {
   time -= 1000;
+
   countdownEl.innerHTML = time / 1000;
 
   if (time === 0) {
@@ -16,6 +18,7 @@ const interval = setInterval(() => {
     countdownEl.classList.add("d-none");
     answersFormEl.classList.remove("d-none");
     listNumberEl.classList.add("d-none");
+    paragraphInstructionEl.classList.add("d-none");
   }
 }, 1000);
 
@@ -69,9 +72,22 @@ answersFormEl.addEventListener("submit", (e) => {
 
   for (let i = 0; i < inputArray.length; i++) {
     if (numberArray.includes(inputArray[i])) {
-      cont += 1;
+      cont++;
     }
   }
 
-  messageParagraphEl.innerHTML = `Hai indovinato ${cont} numeri`;
+  if (cont < 5) {
+    messageParagraphEl.innerHTML = `Hai indovinato ${cont} numeri`;
+  } else {
+    messageParagraphEl.innerHTML = `Hai indovinato tutti i numeri!!!`;
+  }
 });
+
+// const arr = [1, 2, 3, 3, 4, 5, 6, 6, 7];
+// const arrNew = [];
+// for (let i = 0; i < arr.length; i++) {
+//   if (arrNew.includes(arr[i]) === false) {
+//     arrNew.push(arr[i]);
+//   }
+// }
+// console.log(arrNew);
